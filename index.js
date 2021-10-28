@@ -3,29 +3,22 @@ const fs = require('fs');
 const http = require('http');
 const url = require('url');
 
+// reading only once i.e. synchrounously
+const jsondata = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataobject = JSON.parse(jsondata);
+
 const server = http.createServer((req, res) => {
     console.log(req.url);
     const pathName = req.url;
 
-    if (pathName === '/overview') {
+    if (pathName === '/api') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-            data: 'Hello World!',
-            no: 890,
-            name: 'harsh chauhan'
-        }));
-    } else if (pathName === '/product') {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-            data: 'path is product'
-        }));
-
+        res.end(jsondata);
     } else {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
             data: 'path could not be found'
         }));
-
     }
 });
 
