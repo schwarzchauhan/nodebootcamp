@@ -1,25 +1,17 @@
 // requiring module -----------
 const fs = require('fs');
+const http = require('http');
 
-console.log('hello');
-
-// non-blocking async. way, -- callbk hell
-// https://nodejs.org/api/fs.html#fsreadfilepath-options-callback
-fs.readFile('./txt/start.txt', 'utf-8', (err, data1) => {
-    if (err) throw err;
-    console.log(data1);
-    fs.readFile(`./txt/${data1}.txt`, 'utf-8', (err, data2) => {
-        if (err) throw err;
-        console.log(data2);
-        fs.readFile(`./txt/append.txt`, 'utf-8', (err, data3) => {
-            if (err) throw err;
-            console.log(data3);
-            // https://nodejs.org/api/fs.html#fswritefilefile-data-options-callback
-            fs.writeFile('./txt/final.txt', `${data2}\n${data3}`, 'utf8', (err) => {
-                if (err) throw err;
-                console.log('The file has been saved!');
-            });
-        });
-    });
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+        data: 'Hello World!',
+        no: 890,
+        name: 'harsh chauhan'
+    }));
 });
-console.log("some log");
+
+// https://nodejs.org/api/http.html#serverlisten
+server.listen(8000, '127.0.0.1', () => {
+    console.log('server listening on port 8000!');
+});
