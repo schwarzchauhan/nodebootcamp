@@ -11,6 +11,7 @@ setImmediate(() => {
 
 fs.readFile('test-file.txt', () => {
     console.log("i/p finished");
+    console.log("---------");
     setTimeout(() => {
         console.log("timer 2 finished");
     }, 0);
@@ -20,6 +21,7 @@ fs.readFile('test-file.txt', () => {
     setImmediate(() => {
         console.log("immediate 2 finished");
     });
+    process.nextTick(() => { console.log('Process.nextTick'); })
 });
 
 console.log("hello from top lvl code");
